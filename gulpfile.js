@@ -3,15 +3,28 @@
 const gulp = require('gulp'),
   nunjucks = require('gulp-nunjucks'),
     marked = require('marked'),
-        gm = require('gray-matter');
+    rename = require("gulp-rename"),
+      path = require('path'),
+        gm = require('gray-matter'),
+        fs = require('fs');
 
 gulp.task('default', () => {
 
-  let data = gm.read('./index.md');
+  return fs.readdir('./content/', (err,files) => {
 
-  data['content'] = marked(data['content']);
+    if(err) throw err;
 
-  return gulp.src('templates/index.html')
-      .pipe(nunjucks.compile(data))
-      .pipe(gulp.dest('dist'))
+    files.forEach( file => {
+
+      const data = gm.read(`./content/${file}`);
+      const filename = path.basename(file, '.md');
+
+      data['content'] = marked(data['content']);
+
+      return gulp.src('templates/page.html')
+          .pipe(nunjucks.compile(data))
+          .pipe(rename(`${filename}.html`))
+          .pipe(gulp.dest('dist'))
+    });
+  });
 });
