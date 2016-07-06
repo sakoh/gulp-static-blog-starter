@@ -1,8 +1,8 @@
-const gulp = require('gulp');
-const nunjucks = require('gulp-nunjucks');
+const gulp = require('gulp'),
+  nunjucks = require('gulp-nunjucks');
 
 gulp.task('default', () =>
-    gulp.src('templates/greeting.html')
+    gulp.src('templates/index.html')
         .pipe(nunjucks.compile({name: 'Sindre'}))
         .pipe(gulp.dest('dist'))
 );
