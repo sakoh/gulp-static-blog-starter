@@ -6,5 +6,6 @@ function jsonify(file) {
 }
 
 module.exports = {
+  title: "Gulp Static Blog Generator",
   navigation: jsonify('navigation.yml')
 }
