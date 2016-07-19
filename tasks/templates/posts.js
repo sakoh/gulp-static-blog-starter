@@ -6,6 +6,7 @@ const gulp = require("gulp"),
     rename = require("gulp-rename"),
     assign = require("lodash").assign,
       path = require("path"),
+      data = require("../../data"),
         gm = require("gray-matter"),
         fs = require("fs"),
          m = require("moment");
@@ -18,24 +19,22 @@ module.exports = () => {
 
     files.forEach(file => {
 
-      const data = gm.read(`./posts/${file}`),
+      const frontMatter = gm.read(`./posts/${file}`),
             filename = path.basename(file, ".md");
 
 
-      data["content"] = marked(data["content"]);
+      frontMatter["content"] = marked(frontMatter["content"]);
 
-      const date = m(data["date"]);
+      const date = m(frontMatter["date"]);
 
       const dist = `./dist/${date.format('YYYY')}/${date.format('MM')}/${date.format('DD')}/${filename}`
 
       return fs.mkdir(dist, () =>
           gulp.src("templates/post.html")
-              .pipe(nunjucks.compile(assign(data, require('../../data'))))
+              .pipe(nunjucks.compile(assign(frontMatter, data)))
               .pipe(rename("index.html"))
-              .pipe(gulp.dest(dist))
-      );
+              .pipe(gulp.dest(dist)));
 
     });
-
   });
 }
