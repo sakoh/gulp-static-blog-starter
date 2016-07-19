@@ -4,6 +4,7 @@ const gulp = require("gulp"),
   nunjucks = require("gulp-nunjucks"),
     marked = require("marked"),
     rename = require("gulp-rename"),
+    assign = require("lodash").assign,
       path = require("path"),
         gm = require("gray-matter"),
         fs = require("fs");
@@ -32,7 +33,7 @@ module.exports = () => {
 
       return fs.mkdir(dist, () =>
           gulp.src("templates/page.html")
-              .pipe(nunjucks.compile(data))
+              .pipe(nunjucks.compile(assign(data, require('../../data'))))
               .pipe(rename("index.html"))
               .pipe(gulp.dest(dist))
       );
