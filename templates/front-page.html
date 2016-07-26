@@ -1,7 +1,21 @@
 {% set data = { url: "/" } %}
 {% extends "layout.html" %}
 {% block content %}
-  {% for post in posts %}
-    {{ post.title }} by {{ post.author }}
-  {% endfor %}
+
+{% for post in posts %}
+  {% set title = post.title | lower | replace(" ", "-") %}
+  {% set date = moment(post.date) %}
+  {% set link = "/" + date.format('YYYY') + "/" + date.format('MM') + "/" + date.format('DD') + "/" + title %}
+  <h2>
+      <a href="{{ link }}">{{ post.title }}</a>
+  </h2>
+  <p class="lead">
+      by <a href="#">{{ post.author }}</a>
+  </p>
+  <p><span class="glyphicon glyphicon-time"></span> Posted on {{ post.date }}</p>
+    {{ post.description }}
+  <hr>
+
+{% endfor %}
+
 {% endblock %}

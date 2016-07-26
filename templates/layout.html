@@ -21,8 +21,41 @@
     <div class="container">
 
       {% include "./partials/nav.html" %}
+      <div class="row">
+        <div class="col-md-8">
+          {% block content %}{% endblock %}
+        </div>
+        <div class="col-md-4">
 
-      {% block content %}{% endblock %}
+          <!-- Blog Search Well -->
+               <div class="well">
+                   <h4>Blog Search</h4>
+                   <div class="input-group">
+                       <input type="text" class="form-control">
+                       <span class="input-group-btn">
+                           <button class="btn btn-default" type="button">
+                               <span class="glyphicon glyphicon-search"></span>
+                       </button>
+                       </span>
+                   </div>
+                   <!-- /.input-group -->
+               </div>
+
+               <div class="well">
+                 <h4>Latest Posts</h4>
+                 <ul>
+                   {% for post in posts %}
+                    {% set title = post.title | lower | replace(" ", "-") %}
+                    {% set date = moment(post.date) %}
+                    {% set link = "/" + date.format('YYYY') + "/" + date.format('MM') + "/" + date.format('DD') + "/" + title %}
+                    <li>
+                      <a href="{{ link }}">{{ post.title }}</a>
+                    </li>
+                   {% endfor %}
+                 </ul>
+               </div>
+        </div>
+      </div>
       {% include "./partials/footer.html" %}
   </body>
 </html>
