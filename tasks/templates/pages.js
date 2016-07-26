@@ -1,14 +1,14 @@
 "use strict";
 
 const gulp = require("gulp"),
-  nunjucks = require("gulp-nunjucks"),
-    marked = require("marked"),
-    rename = require("gulp-rename"),
-    assign = require("lodash").assign,
+      nunjucks = require("gulp-nunjucks"),
+      marked = require("marked"),
+      rename = require("gulp-rename"),
+      assign = require("lodash").assign,
       path = require("path"),
       data = require("../../data"),
-        gm = require("gray-matter"),
-        fs = require("fs");
+      gm = require("gray-matter"),
+      fs = require("fs");
 
 module.exports = () => {
 
