@@ -20,5 +20,5 @@ gulp.task("watch", () => {
         }
     });
 
-    gulp.watch("./templates/**/*.html",["default", reload]);
+    gulp.watch(["./templates/**/*.html","./**/*.md","./data/**/*"],["default", reload]);
 });

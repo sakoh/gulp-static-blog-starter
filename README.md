@@ -8,8 +8,6 @@ This is a starter kit for creating static blog that is easily customizable and h
  > git clone git@github.com:sakoh/gulp-static-blog-starter.git
  > cd gulp-static-blog-starter
  > npm install -g gulp
- > npm install -g http-server
  > npm install
- > gulp
- > http-server dist
+ > gulp watch
 ```
