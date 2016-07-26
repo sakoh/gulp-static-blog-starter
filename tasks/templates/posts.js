@@ -19,15 +19,15 @@ module.exports = () => {
 
     files.forEach(file => {
 
-      const frontMatter = gm.read(`./posts/${file}`),
+      let frontMatter = gm.read(`./posts/${file}`),
             filename = path.basename(file, ".md");
 
 
       frontMatter["content"] = marked(frontMatter["content"]);
 
-      const date = moment(frontMatter["date"]).format("YYYY/MM/DD");
+      let date = moment(frontMatter["data"]["date"]).format("YYYY/MM/DD");
 
-      const dist = `./dist/${date}/${filename}`
+      let dist = `./dist/${date}/${filename}`
 
       return fs.mkdir(dist, () =>
           gulp.src("templates/post.html")
