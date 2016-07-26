@@ -1,3 +1,4 @@
 {% for post in posts %}
-  {{ post }}
+  {% set post = post.data %}
+  {{ post.title }} by {{ post.author }}
 {% endfor %}

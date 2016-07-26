@@ -9,5 +9,8 @@ function jsonify(file) {
 module.exports = {
   title: "Gulp Static Blog Generator",
   navigation: jsonify('navigation.yml'),
-  posts: fs.readdirSync('./posts/')
+  posts: [
+    gm.read('./posts/first-post.md'),
+    gm.read('./posts/second-post.md')
+  ]
 }
