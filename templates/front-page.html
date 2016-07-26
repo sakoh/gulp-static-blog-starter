@@ -2,7 +2,6 @@
 {% extends "layout.html" %}
 {% block content %}
   {% for post in posts %}
-    {% set post = post.data %}
     {{ post.title }} by {{ post.author }}
   {% endfor %}
 {% endblock %}
