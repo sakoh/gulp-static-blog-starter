@@ -46,8 +46,8 @@
                  <ul>
                    {% for post in posts %}
                     {% set title = post.title | lower | replace(" ", "-") %}
-                    {% set date = moment(post.date) %}
-                    {% set link = "/" + date.format('YYYY') + "/" + date.format('MM') + "/" + date.format('DD') + "/" + title %}
+                    {% set date = moment(post.date).format("YYYY/MM/DD") %}
+                    {% set link = "/" + date + "/" + title %}
                     <li>
                       <a href="{{ link }}">{{ post.title }}</a>
                     </li>

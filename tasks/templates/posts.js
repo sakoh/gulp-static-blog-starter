@@ -9,7 +9,7 @@ const gulp = require("gulp"),
       data = require("../../data"),
         gm = require("gray-matter"),
         fs = require("fs"),
-         m = require("moment");
+         moment = require("moment");
 
 module.exports = () => {
 
@@ -25,9 +25,9 @@ module.exports = () => {
 
       frontMatter["content"] = marked(frontMatter["content"]);
 
-      const date = m(frontMatter["date"]);
+      const date = moment(frontMatter["date"]).format("YYYY/MM/DD");
 
-      const dist = `./dist/${date.format('YYYY')}/${date.format('MM')}/${date.format('DD')}/${filename}`
+      const dist = `./dist/${date}/${filename}`
 
       return fs.mkdir(dist, () =>
           gulp.src("templates/post.html")
