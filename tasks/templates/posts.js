@@ -1,7 +1,6 @@
 "use strict";
 
 const marked = require("marked"),
-      rename = require("gulp-rename"),
       assign = require("lodash").assign,
       path = require("path"),
       data = require("../../data"),
