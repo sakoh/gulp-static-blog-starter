@@ -1,15 +1,14 @@
 "use strict";
 
-const gulp = require("gulp"),
-      nunjucks = require("gulp-nunjucks"),
-      marked = require("marked"),
+const marked = require("marked"),
       rename = require("gulp-rename"),
       assign = require("lodash").assign,
       path = require("path"),
       data = require("../../data"),
       gm = require("gray-matter"),
       fs = require("fs"),
-      moment = require("moment");
+      moment = require("moment"),
+      compile_template = require("./compile_template");
 
 module.exports = () => {
 
@@ -19,22 +18,18 @@ module.exports = () => {
 
     files.forEach(file => {
 
-      let frontMatter = gm.read(`./posts/${file}`),
+      const frontMatter = gm.read(`./posts/${file}`),
             filename = path.basename(file, ".md");
 
 
       frontMatter["content"] = marked(frontMatter["content"]);
 
-      let date = moment(frontMatter["data"]["date"]).format("YYYY/MM/DD");
-
-      let dist = `./dist/${date}/${filename}`
+      const date = moment(frontMatter["data"]["date"]).format("YYYY/MM/DD"),
+            dist = `./dist/${date}/${filename}`;
 
       return fs.mkdir(dist, () =>
-          gulp.src("templates/post.html")
-              .pipe(nunjucks.compile(assign(frontMatter, data)))
-              .pipe(rename("index.html"))
-              .pipe(gulp.dest(dist)));
-
+        compile_template("templates/post.html", assign(frontMatter, data), dist)
+      );
     });
   });
 }

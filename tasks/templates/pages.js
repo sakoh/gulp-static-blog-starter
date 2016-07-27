@@ -1,14 +1,12 @@
 "use strict";
 
-const gulp = require("gulp"),
-      nunjucks = require("gulp-nunjucks"),
-      marked = require("marked"),
-      rename = require("gulp-rename"),
+const marked = require("marked"),
       assign = require("lodash").assign,
       path = require("path"),
       data = require("../../data"),
       gm = require("gray-matter"),
-      fs = require("fs");
+      fs = require("fs"),
+      compile_template = require("./compile_template");
 
 module.exports = () => {
 
@@ -19,24 +17,15 @@ module.exports = () => {
     files.forEach(file => {
 
       const frontMatter = gm.read(`./pages/${file}`),
-            filename = path.basename(file, ".md");
-
-      let dist;
-
-      if(filename !== "index") {
-        dist = `./dist/${filename}`
-      } else {
-        dist = "./dist"
-      }
+            filename = path.basename(file, ".md"),
+            dist = `./dist/${filename}`;
 
 
       frontMatter["content"] = marked(frontMatter["content"]);
 
       return fs.mkdir(dist, () =>
-          gulp.src("templates/page.html")
-              .pipe(nunjucks.compile(assign(frontMatter, data)))
-              .pipe(rename("index.html"))
-              .pipe(gulp.dest(dist)));
+        compile_template("templates/page.html", assign(frontMatter, data), dist)
+      );
     });
 
   });
