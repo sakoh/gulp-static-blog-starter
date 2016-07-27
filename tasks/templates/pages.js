@@ -8,22 +8,16 @@ const marked = require("marked"),
       fs = require("fs"),
       compile_template = require("./compile_template");
 
-module.exports = () => fs.readdir("./pages/", (err,files) => {
+module.exports = () => fs.readdir("./pages/", (err, files) => files.forEach(file => {
 
-  if(err) throw err;
-
-  files.forEach(file => {
-
-    const frontMatter = gm.read(`./pages/${file}`),
-          filename = path.basename(file, ".md"),
-          dist = `./dist/${filename}`;
+  const frontMatter = gm.read(`./pages/${file}`),
+        filename = path.basename(file, ".md"),
+        dist = `./dist/${filename}`;
 
 
-    frontMatter["content"] = marked(frontMatter["content"]);
+  frontMatter["content"] = marked(frontMatter["content"]);
 
-    return fs.mkdir(dist, () =>
-      compile_template("templates/page.html", assign(frontMatter, data), dist)
-    );
-  });
-
-});
+  return fs.mkdir(dist, () =>
+    compile_template("templates/page.html", assign(frontMatter, data), dist)
+  );
+}));
