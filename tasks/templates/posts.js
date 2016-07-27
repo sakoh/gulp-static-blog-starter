@@ -10,26 +10,23 @@ const marked = require("marked"),
       moment = require("moment"),
       compile_template = require("./compile_template");
 
-module.exports = () => {
+module.exports = () => fs.readdir("./posts/", (err,files) => {
 
-  return fs.readdir("./posts/", (err,files) => {
+  if(err) throw err;
 
-    if(err) throw err;
+  files.forEach(file => {
 
-    files.forEach(file => {
-
-      const frontMatter = gm.read(`./posts/${file}`),
-            filename = path.basename(file, ".md");
+    const frontMatter = gm.read(`./posts/${file}`),
+          filename = path.basename(file, ".md");
 
 
-      frontMatter["content"] = marked(frontMatter["content"]);
+    frontMatter["content"] = marked(frontMatter["content"]);
 
-      const date = moment(frontMatter["data"]["date"]).format("YYYY/MM/DD"),
-            dist = `./dist/${date}/${filename}`;
+    const date = moment(frontMatter["data"]["date"]).format("YYYY/MM/DD"),
+          dist = `./dist/${date}/${filename}`;
 
-      return fs.mkdir(dist, () =>
-        compile_template("templates/post.html", assign(frontMatter, data), dist)
-      );
-    });
+    return fs.mkdir(dist, () =>
+      compile_template("templates/post.html", assign(frontMatter, data), dist)
+    );
   });
-}
+});
